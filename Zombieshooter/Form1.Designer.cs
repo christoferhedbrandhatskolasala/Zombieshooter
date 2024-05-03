@@ -37,6 +37,7 @@
             timerSpawn = new System.Windows.Forms.Timer(components);
             buttonStart = new Button();
             labelScore = new Label();
+            labelDied = new Label();
             ((System.ComponentModel.ISupportInitialize)picShotgun).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picRevolver).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -124,7 +125,19 @@
             labelScore.Size = new Size(114, 29);
             labelScore.TabIndex = 6;
             labelScore.Text = "SCORE: 0";
-            labelScore.Visible = false;
+            // 
+            // labelDied
+            // 
+            labelDied.AutoSize = true;
+            labelDied.BackColor = Color.Transparent;
+            labelDied.Font = new Font("Stencil", 72F, FontStyle.Regular, GraphicsUnit.Point);
+            labelDied.ForeColor = Color.Red;
+            labelDied.Location = new Point(448, 82);
+            labelDied.Name = "labelDied";
+            labelDied.Size = new Size(633, 142);
+            labelDied.TabIndex = 7;
+            labelDied.Text = "You died!";
+            labelDied.Visible = false;
             // 
             // Form1
             // 
@@ -134,6 +147,7 @@
             BackgroundImage = Properties.Resources.dualwield3;
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(1454, 340);
+            Controls.Add(labelDied);
             Controls.Add(labelScore);
             Controls.Add(buttonStart);
             Controls.Add(label1);
@@ -159,5 +173,6 @@
         private System.Windows.Forms.Timer timerSpawn;
         private Button buttonStart;
         private Label labelScore;
+        private Label labelDied;
     }
 }

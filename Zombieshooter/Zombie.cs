@@ -70,7 +70,7 @@
         /// <param name="weapon">Vapen som skjuter på zombien</param>
         public void Shoot(Weapon weapon)
         {
-            // TODO
+            hitPoints = Math.Max(0, hitPoints - weapon.GetDamage());
 
             if (NoHitpoints())
             {
@@ -83,8 +83,7 @@
         /// </summary>
         public bool NoHitpoints()
         {
-            // TODO
-            return false;
+            return hitPoints <= 0;
         }
 
         /// <summary>
@@ -111,6 +110,7 @@
         {
             pic.Left = MIN_LEFT + (100 - locationPercent) * (MAX_LEFT - MIN_LEFT) / 100;
             label.Left = pic.Left;
+            label.Text = "HP: " + hitPoints;
         }
 
         /// <summary>

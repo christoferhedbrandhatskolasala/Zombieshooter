@@ -9,6 +9,9 @@ namespace Zombieshooter
         Weapon revolver = new Weapon(50, TimeSpan.FromMilliseconds(200));
         Weapon shotgun = new Weapon(200, TimeSpan.FromMilliseconds(600));
 
+        // antal poäng
+        int score;
+
         // ljudeffekt för shotgun
         System.Media.SoundPlayer shotgunSound =
             new System.Media.SoundPlayer(Properties.Resources.shotgun_sound);
@@ -37,13 +40,7 @@ namespace Zombieshooter
         /// </summary>
         private void picShotgun_Click(object sender, EventArgs e)
         {
-            shotgunSound.Play();
-
-            bool didFire = shotgun.Fire();
-            if (didFire)
-            {
-                // TODO skada första zombien
-            }
+            fireWeapon(shotgun, shotgunSound);
         }
 
         /// <summary>
@@ -53,13 +50,37 @@ namespace Zombieshooter
         /// </summary>
         private void picRevolver_Click(object sender, EventArgs e)
         {
-            zombieDeathSound.Play();
+            fireWeapon(revolver, revolverSound);
+        }
 
-            bool didFire = revolver.Fire();
+        private void fireWeapon(Weapon weapon, System.Media.SoundPlayer sound)
+        {
+            bool didFire = weapon.Fire();
             if (didFire)
             {
-                // TODO skada första zombien
+                // skada första zombien
+                sound.Play();
+                if (zombieList.Count > 0)
+                {
+                    Zombie zombie = zombieList[0];
+                    zombie.Shoot(weapon);
+
+                    // zombie dör om slut på hitpoints
+                    if (zombie.NoHitpoints())
+                    {
+                        score++;
+                        updateScoreLabel();
+                        zombieDeathSound.Play();
+                        zombieList.RemoveAt(0);
+                    }
+                }
             }
+        }
+
+        private void updateScoreLabel()
+        {
+            labelScore.Text = "Score: " + score;
+            labelScore.BringToFront();
         }
 
         /// <summary>
@@ -68,7 +89,13 @@ namespace Zombieshooter
         /// </summary>
         private void loseGameIfZombieIsBiting()
         {
-            // TODO om zombie kommit hela vägen fram förlorar man spelet
+            if (zombieList.Count > 0 && zombieList[0].IsBiting())
+            {
+                timerMove.Enabled = false;
+                timerSpawn.Enabled = false;
+                labelDied.Visible = true;
+                labelDied.BringToFront();
+            }
         }
 
         /// <summary>
@@ -88,7 +115,12 @@ namespace Zombieshooter
         /// </summary>
         private void timerSpawn_Tick(object sender, EventArgs e)
         {
-            Zombie zombie = new Zombie(this, 100, 15, 0);
+            newZombie();
+        }
+
+        private void newZombie()
+        {
+            Zombie zombie = new Zombie(this, 800, 15, 0);
             zombieList.Add(zombie);
         }
 
@@ -99,6 +131,11 @@ namespace Zombieshooter
         {
             timerMove.Start();
             timerSpawn.Start();
+            score = 0;
+            updateScoreLabel();
+            zombieList.Clear();
+            labelDied.Visible = false;
+            newZombie();
         }
     }
 }
