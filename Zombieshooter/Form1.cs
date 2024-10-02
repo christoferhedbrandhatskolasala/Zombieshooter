@@ -115,13 +115,52 @@ namespace Zombieshooter
         /// </summary>
         private void timerSpawn_Tick(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             newZombie();
         }
 
         private void newZombie()
         {
             Zombie zombie = new Zombie(this, 800, 15, 0);
+=======
+            AddZombie();
+        }
+
+        /// <summary>
+        /// Skapa och lägg till en ny zombie.
+        /// </summary>
+        private void AddZombie()
+        {
+            // skapa ett nytt zombie-objekt
+            Zombie zombie = new Zombie(100, 15, 0);
+            // hämta och lägg till alla kontroller i zombien (picture, label m.m.)
+            AddControls(zombie.GetControls());
+            // lägg till zombien i zombielistan
+>>>>>>> master
             zombieList.Add(zombie);
+        }
+
+        /// <summary>
+        /// Lägg till alla kontroller i en lista till formuläret
+        /// </summary>
+        private void AddControls(List<Control> controls)
+        {
+            foreach (Control c in controls)
+            {
+                Controls.Add(c);
+                c.BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Ta bort alla kontroller i en lista från formuläret
+        /// </summary>
+        private void RemoveControls(List<Control> controls)
+        {
+            foreach (Control c in controls)
+            {
+                Controls.Remove(c);
+            }
         }
 
         /// <summary>
@@ -131,11 +170,15 @@ namespace Zombieshooter
         {
             timerMove.Start();
             timerSpawn.Start();
+<<<<<<< HEAD
             score = 0;
             updateScoreLabel();
             zombieList.Clear();
             labelDied.Visible = false;
             newZombie();
+=======
+            AddZombie();
+>>>>>>> master
         }
     }
 }

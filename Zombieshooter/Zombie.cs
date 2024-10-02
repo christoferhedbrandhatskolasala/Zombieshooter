@@ -17,37 +17,34 @@
         // vägen fram och biter spelaren.
         private int locationPercent;
 
-        // fomuläret som zombien rör sig i
-        private Form form;
-
         // bild som representerar zombien
         private PictureBox pic;
 
         // text som visa antal hitpoints
         private Label label;
 
-        public Zombie(Form form, int hitPoints, int speedPercentPerSec, int locationPercent)
+        public Zombie(int hitPoints, int speedPercentPerSec, int locationPercent)
         {
             this.hitPoints = hitPoints;
             this.speedPercentPerSec = speedPercentPerSec;
             this.locationPercent = locationPercent;
-            this.form = form;
 
             // skapa en ny PictureBox och Label för varje zombie
             pic = newPic();
             label = newLabel();
-
-            // lägg till bilden och texten till formuläret för att det ska synas där
-            form.Controls.Add(pic);
-            form.Controls.Add(label);
-            pic.BringToFront();
-            label.BringToFront();
 
             // uppdatera läge för bild och text. dvs när zombien rör sig ska även bild och
             // text flytta sig.
             updateView();
         }
 
+        /// <summary>
+        /// Ger alla kontroller som tillhör zombien och som måste finnas i formuläret
+        /// </summary>
+        public List<Control> GetControls()
+        {
+            return new List<Control>() { pic, label };
+        }
 
         /// <summary>
         /// Flytta zombien ett avstånd som är i enlighet med hastigheten.
@@ -64,18 +61,15 @@
         }
 
         /// <summary>
-        /// Skjut zombien med en vapen. Zombien skadas lika mycket som vapnets damage. Om zombien
-        /// får slut på hitpoints ska den dö.
+        /// Skjut zombien med en vapen. Zombien skadas lika mycket som vapnets damage. Returnera
+        /// true om zombien dör.
         /// </summary>
         /// <param name="weapon">Vapen som skjuter på zombien</param>
-        public void Shoot(Weapon weapon)
+        public bool Shoot(Weapon weapon)
         {
             hitPoints = Math.Max(0, hitPoints - weapon.GetDamage());
 
-            if (NoHitpoints())
-            {
-                die();
-            }
+            return NoHitpoints();
         }
 
         /// <summary>
@@ -95,22 +89,18 @@
         }
 
         /// <summary>
-        /// Ta bort bild och text från formuläret.
-        /// </summary>
-        private void die()
-        {
-            form.Controls.Remove(pic);
-            form.Controls.Remove(label);
-        }
-
-        /// <summary>
         /// Uppdatera läget av bild och text i en enlighet med var zombien är.
         /// </summary>
         private void updateView()
         {
             pic.Left = MIN_LEFT + (100 - locationPercent) * (MAX_LEFT - MIN_LEFT) / 100;
             label.Left = pic.Left;
+<<<<<<< HEAD
             label.Text = "HP: " + hitPoints;
+=======
+
+            // TODO update label text
+>>>>>>> master
         }
 
         /// <summary>
@@ -135,10 +125,11 @@
         private static Label newLabel()
         {
             Label label = new Label();
-            label.Font = new Font("Stencil", 14, FontStyle.Bold);
+            label.Font = new Font("Stencil", 14, FontStyle.Regular);
             label.Top = 12;
             label.Left = 0; // set elsewhere
-            label.Width = 120;
+            label.Width = 130;
+            label.Height = 35;
             label.Text = "HP: 999"; // set elsewhere
             label.ForeColor = Color.White;
             label.BackColor = Color.Transparent;
