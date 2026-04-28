@@ -125,7 +125,6 @@
             labelScore.Size = new Size(114, 29);
             labelScore.TabIndex = 6;
             labelScore.Text = "SCORE: 0";
-<<<<<<< HEAD
             // 
             // labelDied
             // 
@@ -139,8 +138,6 @@
             labelDied.TabIndex = 7;
             labelDied.Text = "You died!";
             labelDied.Visible = false;
-=======
->>>>>>> master
             // 
             // Form1
             // 

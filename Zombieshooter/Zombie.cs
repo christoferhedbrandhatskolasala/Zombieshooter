@@ -68,7 +68,6 @@
         public bool Shoot(Weapon weapon)
         {
             hitPoints = Math.Max(0, hitPoints - weapon.GetDamage());
-
             return NoHitpoints();
         }
 
@@ -95,12 +94,7 @@
         {
             pic.Left = MIN_LEFT + (100 - locationPercent) * (MAX_LEFT - MIN_LEFT) / 100;
             label.Left = pic.Left;
-<<<<<<< HEAD
             label.Text = "HP: " + hitPoints;
-=======
-
-            // TODO update label text
->>>>>>> master
         }
 
         /// <summary>

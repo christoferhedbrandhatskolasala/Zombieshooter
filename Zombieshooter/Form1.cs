@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 namespace Zombieshooter
 {
     public partial class Form1 : Form
@@ -62,15 +64,16 @@ namespace Zombieshooter
                 sound.Play();
                 if (zombieList.Count > 0)
                 {
+                    // välj den första zombien in listan
                     Zombie zombie = zombieList[0];
-                    zombie.Shoot(weapon);
 
-                    // zombie dör om slut på hitpoints
-                    if (zombie.NoHitpoints())
+                    // skjut zombien, uppdatea poäng m.m. om den dör
+                    if(zombie.Shoot(weapon))
                     {
                         score++;
                         updateScoreLabel();
                         zombieDeathSound.Play();
+                        RemoveControls(zombie.GetControls());
                         zombieList.RemoveAt(0);
                     }
                 }
@@ -115,14 +118,6 @@ namespace Zombieshooter
         /// </summary>
         private void timerSpawn_Tick(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-            newZombie();
-        }
-
-        private void newZombie()
-        {
-            Zombie zombie = new Zombie(this, 800, 15, 0);
-=======
             AddZombie();
         }
 
@@ -132,11 +127,10 @@ namespace Zombieshooter
         private void AddZombie()
         {
             // skapa ett nytt zombie-objekt
-            Zombie zombie = new Zombie(100, 15, 0);
+            Zombie zombie = new Zombie(800, 15, 0);
             // hämta och lägg till alla kontroller i zombien (picture, label m.m.)
             AddControls(zombie.GetControls());
             // lägg till zombien i zombielistan
->>>>>>> master
             zombieList.Add(zombie);
         }
 
@@ -168,17 +162,27 @@ namespace Zombieshooter
         /// </summary>
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            // starta alla timers
             timerMove.Start();
             timerSpawn.Start();
-<<<<<<< HEAD
+
+            // nollställ poängen
             score = 0;
             updateScoreLabel();
+
+            // ta bort varje zombies kontroller i formuläret
+            foreach (Zombie zombie in zombieList)
+            {
+                RemoveControls(zombie.GetControls());
+            }
+            // ta bort varje zombie från zombielistan
             zombieList.Clear();
+
+            // dölj texten som säger att man är död
             labelDied.Visible = false;
-            newZombie();
-=======
+
+            // lägg till en första zombie
             AddZombie();
->>>>>>> master
         }
     }
 }
